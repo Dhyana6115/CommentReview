@@ -1,12 +1,25 @@
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 
 const FormValidation = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    function signup(data) {
-        console.log(data);
+    const resultRef = useRef(null);
+        function signup(data) {
+            if (resultRef.current) {
+                resultRef.current.innerHTML = `
+                    <h2 class="text-center">Submitted Details</h2>
+                    <p><strong>Username:</strong> ${data.username}</p>
+                    <p><strong>Email:</strong> ${data.email}</p>
+                    <p><strong>Gender:</strong> ${data.gender}</p>
+                    <p><strong>City:</strong> ${data.course}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
+                    <p><strong>Hobbies:</strong> ${data.hobbies ? data.hobbies.join(",") : "None"}</p>
+                `;
+            }
         alert("Thank You for registration");
         reset()
-    }
+        }
+    
     return (
         <>
             <form method="post" onSubmit={handleSubmit(signup)} className=" col-lg-6 mx-auto my-5 p-5 shadow bg-dark">
@@ -162,7 +175,7 @@ const FormValidation = () => {
                     <button className="btn btn-outline-warning">Submit</button>
                 </div>
             </form>
-
+                 <div ref={resultRef} className="col-lg-6 mx-auto my-5 p-5 shadow bg-dark text-light"></div>
         </>
     )
 }
